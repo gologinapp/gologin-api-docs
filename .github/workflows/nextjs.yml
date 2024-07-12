@@ -81,6 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Print page_url
+        id: print-page-url
+        run: |
+          echo "${{ steps.deployment.outputs.page_url }}, ${url}, ${{url}}"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
