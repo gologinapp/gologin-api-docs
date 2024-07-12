@@ -1,97 +1,77 @@
 export const metadata = {
   title: 'Quickstart',
   description:
-    'This guide will get you all set up and ready to use the Protocol API. We’ll cover how to get started an API client and how to make your first API request.',
+    'This guide will get you all set up and ready to use the GoLogin API. We’ll cover how to get started an API client and how to make your first API request.',
 }
 
 # Quickstart
 
-This guide will get you all set up and ready to use the Protocol API. We'll cover how to get started using one of our API clients and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
+This guide will get you all set up and ready to use the GoLogin API. We'll cover how to get started using one of our API clients and how to make your first API request. We'll also look at where to go next to find all the information you need to take full advantage of our powerful REST API. {{ className: 'lead' }}
 
 <Note>
-  Before you can make requests to the Protocol API, you will need to grab your
-  API key from your dashboard. You find it under [Settings &raquo; API](#).
+  Before you can make requests to the GoLogin API, you will need to grab your
+  API key from your dashboard. You find it under [Settings &raquo; API](https://app.gologin.com/personalArea/).
 </Note>
 
-## Choose your client
 
-Before making your first API request, you need to pick which API client you will use. In addition to good ol' cURL HTTP requests, Protocol offers clients for JavaScript, Python, and PHP. In the following example, you can see how to install each client.
+## Making your first anonymous scrapping request
 
-<CodeGroup>
-
-```bash {{ title: 'cURL' }}
-# cURL is most likely already installed on your machine
-curl --version
-```
-
-```bash {{ language: 'js' }}
-# Install the Protocol JavaScript SDK
-npm install @example/protocol-api --save
-```
-
-```bash {{ language: 'python' }}
-# Install the Protocol Python SDK
-pip install protocol_api
-```
-
-```bash {{ language: 'php' }}
-# Install the Protocol PHP SDK
-composer require protocol/sdk
-```
-
-</CodeGroup>
-
-<div className="not-prose">
-  <Button href="/sdks" variant="text" arrow="right">
-    <>Check out our list of first-party SDKs</>
-  </Button>
-</div>
-
-## Making your first API request
-
-After picking your preferred client, you are ready to make your first call to the Protocol API. Below, you can see how to send a GET request to the Conversations endpoint to get a list of all your conversations. In the cURL example, results are limited to ten conversations, the default page length for each client.
-
-<CodeGroup tag="GET" label="/v1/conversations">
-
-```bash {{ title: 'cURL' }}
-curl -G https://api.protocol.chat/v1/conversations \
-  -H "Authorization: Bearer {token}" \
-  -d limit=10
-```
+<CodeGroup tag="iphey.com" label="Check trustworthiness status">
 
 ```js
-import ApiClient from '@example/protocol-api'
+import { GologinApi } from 'gologin';
 
-const client = new ApiClient(token)
+const token = process.env.GL_API_TOKEN;
+const gologin = GologinApi({ token });
 
-await client.conversations.list()
+async function main() {
+  const { browser } = await gologin.launch();
+  const page = await browser.newPage();
+  await page.goto('https://iphey.com/', { waitUntil: 'networkidle2' });
+  const status = await page.$eval('.trustworthy-status:not(.hide)', 
+    (elt) => elt?.innerText?.trim()
+  );
+
+  return status; // Expecting 'Trustworthy'
+}
+
+main().catch(console.error).
+  then(console.info).finally(gologin.exit);
 ```
 
 ```python
-from protocol_api import ApiClient
+PYTHON
 
-client = ApiClient(token)
-
-client.conversations.list()
-```
-
-```php
-$client = new \Protocol\ApiClient($token);
-
-$client->conversations->list();
 ```
 
 </CodeGroup>
 
-<div className="not-prose">
-  <Button href="/conversations" variant="text" arrow="right">
-    <>Read the docs for the Conversations endpoint</>
-  </Button>
-</div>
+
+## What this script does, step by step
+1. Create GoLogin API instance
+2. On the first run, downloads Orbita anti-detect web browser 
+3. Create new anti-detect browser profile called **default-api-profile**
+4. Launch the web browser using the profile created
+5. Connect nodejs puppeteer library to the browser
+6. Navigates to the [iphey.com](https://iphey.com) page
+7. Scrapes trustworthiness status from the web page
+8. Print the status, which is expected to be **'Trustworthy'**
+
+## Running code yourself
+
+<CodeGroup tag="github.com" label="Run scrapping example">
+```bash
+git clone git@github.com:gologinapp/gologin.git
+cd gologin
+npm install
+
+GL_API_TOKEN=[YOUR_GOLOGIN_API_TOKEN] node examples/example-iphey.js
+```
+</CodeGroup>
 
 ## What's next?
 
-Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the Protocol API:
+Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the GoLogin API:
 
 - [Grab your API key from the Protocol dashboard](#)
 - [Check out the Conversations endpoint](/conversations)

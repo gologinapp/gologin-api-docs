@@ -1,5 +1,5 @@
-import { type Metadata } from 'next'
 import glob from 'fast-glob'
+import { type Metadata } from 'next'
 
 import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
@@ -9,8 +9,8 @@ import '@/styles/tailwind.css'
 
 export const metadata: Metadata = {
   title: {
-    template: '%s - Protocol API Reference',
-    default: 'Protocol API Reference',
+    template: '%s - GoLogin API Reference',
+    default: 'GoLogin API Reference',
   },
 }
 
