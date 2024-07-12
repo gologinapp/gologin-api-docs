@@ -84,7 +84,7 @@ jobs:
       - name: Print page_url
         id: print-page-url
         run: |
-          echo "${{ steps.deployment.outputs.page_url }}, ${url}, ${{url}}"
+          echo "${{ steps.deployment.outputs.page_url }}"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
