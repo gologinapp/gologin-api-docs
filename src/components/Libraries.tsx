@@ -2,48 +2,41 @@ import Image from 'next/image'
 
 import { Button } from '@/components/Button'
 import { Heading } from '@/components/Heading'
-import logoGo from '@/images/logos/go.svg'
+import logoDocker from '@/images/logos/docker.svg'
 import logoNode from '@/images/logos/node.svg'
-import logoPhp from '@/images/logos/php.svg'
+import logoPlaywright from '@/images/logos/playwright-logo.svg'
 import logoPython from '@/images/logos/python.svg'
-import logoRuby from '@/images/logos/ruby.svg'
 
 const libraries = [
   {
-    href: '#',
-    name: 'PHP',
-    description:
-      'A popular general-purpose scripting language that is especially suited to web development.',
-    logo: logoPhp,
-  },
-  {
-    href: '#',
-    name: 'Ruby',
-    description:
-      'A dynamic, open source programming language with a focus on simplicity and productivity.',
-    logo: logoRuby,
-  },
-  {
-    href: '#',
-    name: 'Node.js',
+    href: 'https://github.com/gologinapp/gologin',
+    name: 'Node.js Puppeteer',
     description:
       'Node.js® is an open-source, cross-platform JavaScript runtime environment.',
     logo: logoNode,
   },
   {
-    href: '#',
-    name: 'Python',
+    href: 'https://playwright.dev/docs/intro',
+    name: 'Node.js Playwright',
     description:
-      'Python is a programming language that lets you work quickly and integrate systems more effectively.',
+      'Playwright is a cross-browser automation tool which supports all modern rendering engines including Chromium, WebKit, and Firefox.',
+    logo: logoPlaywright,
+  },
+  {
+    href: 'https://github.com/gologinapp/pygologin',
+    name: 'Python Selenium',
+    description:
+      'Selenium is a cross-browser automation toolset built on top of standrard WebDriver.',
     logo: logoPython,
   },
   {
-    href: '#',
-    name: 'Go',
+    href: 'https://github.com/gologinapp/docker',
+    name: 'Docker scraping container',
     description:
-      'An open-source programming language supported by Google with built-in concurrency.',
-    logo: logoGo,
+      'Docker container is a out-of-the-box solution to run your scraping browser automation.',
+    logo: logoDocker,
   },
+
 ]
 
 export function Libraries() {

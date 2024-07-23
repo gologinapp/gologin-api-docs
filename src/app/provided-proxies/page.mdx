@@ -1,0 +1,78 @@
+export const metadata = {
+  title: 'Using headless mode browser for scrapping ',
+  description:
+    'Setup proxies with GoLogin API. We’ll cover how to get started an API client and how to make your first API request.',
+}
+
+# Using proxy from desired location for scrapping
+
+To make scrapping browser start with a proxy from a desired location just add 
+`proxy: {countryCode: '**' }` to the list 
+of params when calling the `launch()` function.
+
+```
+  const { browser } = await gologin.launch({proxy: {countryCode: 'DE' }});
+```
+
+# Benefits of running scraping browser with provided proxies
+
+- Setup proxies super fast
+- Bypass geo-restrictions by selecting specific country codes for proxies.
+- Improve scraping efficiency with reduced chances of IP bans.
+- Maintain anonymity and privacy during web scraping activities.
+- Access localized content for more accurate and relevant data collection.
+- Increase success rates of data retrieval with diverse proxy options.
+- Optimize resource usage by automating proxy management within the anti-detect browser setup.
+
+### Code sample using Headless browser scrapping 
+
+<CodeGroup tag="headless" label="Run headless browser">
+
+```js
+import { exitAll, GologinApi } from '../src/gologin-api.js';
+
+const token = process.env.GOLOGIN_API_TOKEN; // get token https://app.gologin.com/personalArea/TokenApi
+const gologin = GologinApi({ token, debug: true });
+
+async function main() {
+  const { browser } = await gologin.launch({ proxy: { countryCode: 'DE' } });
+  const page = await browser.newPage();
+  await page.goto('https://iphey.com/', { waitUntil: 'networkidle2' });
+  const status = await page.$eval('.trustworthy-status:not(.hide)', (elt) =>
+    elt?.innerText?.trim(),
+  );
+
+  return status; // Expecting 'Trustworthy'
+}
+
+main().catch(console.error).then(console.info).finally(exitAll);
+
+```
+
+```python
+PYTHON
+
+```
+
+</CodeGroup>
+
+## Clone and run headless scraping browser code sample
+
+Start with pre-build and tested code example:
+
+<CodeGroup tag="github.com" label="Run scrapping example">
+```bash
+git clone git@github.com:gologinapp/gologin.git
+cd gologin
+npm install
+
+GL_API_TOKEN=[YOUR_GOLOGIN_API_TOKEN] node examples/example-provided-proxy.js
+```
+</CodeGroup>
+
+## What's next?
+
+Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the GoLogin API:
+
+- [Grab your API key from the Settings > API](https://app.gologin.com/personalArea/TokenApi)
+- [How to configure custom proxies](/custom-proxies)

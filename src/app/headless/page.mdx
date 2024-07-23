@@ -1,0 +1,82 @@
+export const metadata = {
+  title: 'Using headless mode browser for scrapping ',
+  description:
+    'This guide will get you all set up and ready to use the GoLogin API. We’ll cover how to get started an API client and how to make your first API request.',
+}
+
+# Using headless browser mode for scrapping
+
+To make scrapping browser start in headless mode just add `headless: true` to the list of params when calling the `launch()` function.
+
+
+```
+  const { browser } = await gologin.launch({headless: true});
+```
+
+# Benefits of running scraping browser in the Cloud
+
+- **Cost Savings**: Lower resource usage translates to lower operational costs, especially in cloud environments where resources are billed based on usage.
+- **Scalability**: Reduced resource consumption and increased speed mean that you can run more scraping instances simultaneously, enhancing scalability.
+- **Resource Efficiency**: Headless browsers consume less memory and CPU since they don't have to render a user interface, leading to more efficient use of system resources.
+- **Automation**: Headless mode is well-suited for automated scripts, allowing for seamless integration with CI/CD pipelines and other automated processes.
+- **Less Bandwidth**: Since headless browsers don't load unnecessary UI elements, they typically use less bandwidth, which can be beneficial for large-scale scraping operations.
+- **Remote Execution**: Headless browsers can be run on remote servers without needing a display, making it easier to manage and deploy scraping tasks across different environments.
+- **Parallel Execution**: The lightweight nature of headless browsers allows for running multiple instances in parallel, improving the efficiency of scraping operations.
+- **Continuous Monitoring**: They are ideal for continuous monitoring of websites for changes, such as price tracking, content updates, or availability checks.
+- **Security**: Running headless browsers can mitigate the risk of drive-by downloads and other security threats associated with rendering untrusted web pages.
+- **Non-interactive Operations**: Perfect for scenarios where no user interaction is required, such as backend data collection and processing.
+- **API Simulation**: Headless browsers can simulate user interactions with APIs in web applications, allowing for comprehensive end-to-end testing.
+- **Speed**: Without the overhead of rendering a UI, headless browsers can load and interact with web pages faster than their full-featured counterparts.
+
+
+### Code sample using Headless browser scrapping 
+
+<CodeGroup tag="headless" label="Run headless browser">
+
+```js
+import { GologinApi } from 'gologin';
+
+const token = process.env.GL_API_TOKEN;
+const gologin = GologinApi({ token });
+
+async function main() {
+  const { browser } = await gologin.launch({headless: true});
+  const page = await browser.newPage();
+  await page.goto('https://iphey.com/', { waitUntil: 'networkidle2' });
+  const status = await page.$eval('.trustworthy-status:not(.hide)', 
+    (elt) => elt?.innerText?.trim()
+  );
+
+  return status; // Expecting 'Trustworthy'
+}
+
+main().catch(console.error).
+  then(console.info).finally(gologin.exit);
+```
+
+```python
+PYTHON
+
+```
+
+</CodeGroup>
+
+## Clone and run headless scraping browser code sample
+
+Start with pre-build and tested code example:
+
+<CodeGroup tag="github.com" label="Run scrapping example">
+```bash
+git clone git@github.com:gologinapp/gologin.git
+cd gologin
+npm install
+
+GL_API_TOKEN=[YOUR_GOLOGIN_API_TOKEN] node examples/example-headless.js
+```
+</CodeGroup>
+
+## What's next?
+
+Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the GoLogin API:
+
+- [Grab your API key from the Settings > API](https://app.gologin.com/personalArea/TokenApi)

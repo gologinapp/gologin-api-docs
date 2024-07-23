@@ -1,0 +1,90 @@
+export const metadata = {
+  title: 'Cloud run scraping browser',
+  description:
+    'This guide will get you all set up and ready to use the GoLogin API. We’ll cover how to get started an API client and how to make your first API request.',
+}
+
+# Cloud run anti-detect web browser
+
+Cloud run scraping browser run on the servers of GoLogin, instead of your local machine. In what cases
+
+To run browser in the cloud just add `cloud: true` to the list of params when calling `gologinApi.launch()`.
+
+```
+  const { browser } = await gologin.launch({cloud: true});
+```
+
+
+# Benefits of running scraping browser in the Cloud
+
+1. **Scalability**: Quickly scale up or down the number of instances running to match your scraping needs.
+2. **Resource Efficiency**: Offload the computational and network load from your local machine to cloud servers.
+3. **Reduced Local Footprint**: No need to install and maintain browser software on local machines.
+4. **Improved Uptime**: Cloud services typically offer high availability and reliability.
+5. **Concurrency**: Run multiple scraping tasks in parallel without affecting each other's performance.
+6. **Security**: Enhanced security features like sandboxing and isolated environments.
+7. **Maintenance**: Automatic updates and maintenance of the browser environment.
+8. **Compliance**: Helps in complying with scraping policies by rotating and managing identities.
+9. **Data Storage**: Integrated cloud storage options for saving scraped data.
+10. **Performance**: Leverage powerful cloud infrastructure for faster data processing and extraction.
+11. **Integration**: Seamlessly integrate with other cloud services and APIs.
+12. **Reliability**: Less risk of scraping interruptions due to local network issues.
+13. **Cost-Effectiveness**: Pay-as-you-go pricing models can be more economical than maintaining extensive local infrastructure.
+
+## Make your first run of browser in the cloud
+
+<Note>
+  Before you can make requests to the GoLogin API, you will need to grab your
+  API key from your dashboard. You find it under [Settings &raquo; API](https://app.gologin.com/personalArea/TokenApi).
+</Note>
+
+<CodeGroup tag="cloud" label="Run anti-detect browser in the cloud">
+
+```js
+import { GologinApi } from 'gologin';
+
+const token = process.env.GL_API_TOKEN;
+const gologin = GologinApi({ token });
+
+async function main() {
+  const { browser } = await gologin.launch({cloud: true});
+  const page = await browser.newPage();
+  await page.goto('https://iphey.com/', { waitUntil: 'networkidle2' });
+  const status = await page.$eval('.trustworthy-status:not(.hide)', 
+    (elt) => elt?.innerText?.trim()
+  );
+
+  return status; // Expecting 'Trustworthy'
+}
+
+main().catch(console.error).
+  then(console.info).finally(gologin.exit);
+```
+
+```python
+PYTHON
+
+```
+
+</CodeGroup>
+
+
+## Running code yourself
+
+<CodeGroup tag="github.com" label="Run scrapping example">
+```bash
+git clone git@github.com:gologinapp/gologin.git
+cd gologin
+npm install
+
+GL_API_TOKEN=[YOUR_GOLOGIN_API_TOKEN] node examples/example-cloud.js
+```
+</CodeGroup>
+
+## What's next?
+
+Great, you're now set up with an API client and have made your first request to the API. 
+Here are a few links that might be handy as you venture further into the GoLogin API:
+
+- [Grab your API key from the Settings > API](https://app.gologin.com/personalArea/TokenApi)
+- [GoLogin Scraping Browser](/https://gologin.com/scraping-browser-api/)

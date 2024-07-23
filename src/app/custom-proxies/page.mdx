@@ -1,0 +1,120 @@
+export const metadata = {
+  title: 'Using headless mode browser for scrapping ',
+  description:
+    'Setup custom proxies with GoLogin API to make scraping requests',
+}
+
+# Using proxy for scrapping
+
+To make scrapping browser start with a custom proxy add 
+`proxy: { /** list of proxy fields */ }` to the list 
+of params when calling the `launch()` function.
+
+<Note>
+  We highly recommend using [provided proxies](/provided-proxies) instead of custom proxies because of
+  
+  - much easier to setup of provided proxies
+  - well-tested compatibility between browser, automation API, reCaptcha, proxies and other anti-detect technologies 
+  - single support point
+  - flexibility in changing locations and other params when you need it
+</Note>
+
+
+```
+  const { browser } = await gologin.launch({
+    proxy: {
+      mode: 'http',
+      host: 'proxy_host',
+      port: 'proxy_port',
+      username: 'proxy_username',
+      password: 'proxy_password',
+    },
+  });
+```
+
+# Benefits of running scraping browser with proxies
+
+- Bypass geo-restrictions by selecting specific country codes for proxies.
+- Improve scraping efficiency with reduced chances of IP bans.
+- Maintain anonymity and privacy during web scraping activities.
+- Access localized content for more accurate and relevant data collection.
+- Increase success rates of data retrieval with diverse proxy options.
+
+
+<Note>
+  We highly recommend using [provided proxies](/provided-proxies) for the following reasons:
+  
+  - much easier to setup of provided proxies
+  - well-tested compatibility between browser, automation API, reCaptcha, proxies and other anti-detect technologies 
+  - single support point
+  - flexibility in changing locations and other params when you need it
+</Note>
+
+### Code sample: custom proxy for scrapping 
+
+<CodeGroup tag="headless" label="Run headless browser">
+
+```js
+import { exitAll, GologinApi } from '../src/gologin-api.js';
+
+const token = process.env.GOLOGIN_API_TOKEN; // get token https://app.gologin.com/personalArea/TokenApi
+const gologin = GologinApi({ token, debug: true });
+
+async function main() {
+  const { browser } = await gologin.launch({ proxy: {
+      mode: 'http',
+      host: 'proxy_host',
+      port: 'proxy_port',
+      username: 'proxy_username',
+      password: 'proxy_password',
+    },
+  });
+  const page = await browser.newPage();
+  await page.goto('https://iphey.com/', { waitUntil: 'networkidle2' });
+  const status = await page.$eval('.trustworthy-status:not(.hide)', (elt) =>
+    elt?.innerText?.trim(),
+  );
+
+  return status; // Expecting 'Trustworthy'
+}
+
+main().catch(console.error).then(console.info).finally(exitAll);
+
+```
+
+```python
+PYTHON
+
+```
+
+</CodeGroup>
+
+## Clone and run headless scraping browser code sample
+
+Start with pre-build and tested code example:
+
+<CodeGroup tag="github.com" label="Run scrapping example">
+```bash
+git clone git@github.com:gologinapp/gologin.git
+cd gologin
+npm install
+
+GL_API_TOKEN=[YOUR_GOLOGIN_API_TOKEN] node examples/example-custom-proxy.js
+```
+</CodeGroup>
+
+<Note>
+  We highly recommend using [provided proxies](/provided-proxies) for the the following reasons:
+  
+  - much easier setup of provided proxies
+  - well-tested compatibility between browser, automation API, reCaptcha, proxies and other anti-detect technologies 
+  - single support point
+  - flexibility in changing locations and other params when you need it
+</Note>
+
+## What's next?
+
+Great, you're now set up with an API client and have made your first request to the API. Here are a few links that might be handy as you venture further into the GoLogin API:
+
+- [Grab your API key from the Settings > API](https://app.gologin.com/personalArea/TokenApi)
+- [Use provided proxies](/provided-proxies)

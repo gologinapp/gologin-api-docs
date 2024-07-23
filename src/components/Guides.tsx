@@ -3,26 +3,39 @@ import { Heading } from '@/components/Heading'
 
 const guides = [
   {
+    href: '/quickstart',
+    name: 'Quickstart',
+    description: 'Quickstart you scrapping browser automation.',
+  },
+  {
+    href: '/headless',
+    name: 'Headless',
+    description: 'Run browser in headless mode.',
+  },
+  {
+    href: '/cloud',
+    name: 'Cloud',
+    description: 'Run scrapping browser in the cloud.',
+  },
+  {
+    href: '/profiles',
+    name: 'Browser profiles',
+    description: 'Create and manage anti-detect browser profiles.',
+  },
+  {
+    href: '/recaptcha',
+    name: 'ReCAPTCHA',
+    description: 'Pass throught the ReCAPTCHA.',
+  },
+  {
     href: '/authentication',
     name: 'Authentication',
-    description: 'Learn how to authenticate your API requests.',
+    description: 'Learn how to authenticate your HTTP API requests.',
   },
   {
-    href: '/pagination',
-    name: 'Pagination',
-    description: 'Understand how to work with paginated responses.',
-  },
-  {
-    href: '/errors',
-    name: 'Errors',
-    description:
-      'Read about the different types of errors returned by the API.',
-  },
-  {
-    href: '/webhooks',
-    name: 'Webhooks',
-    description:
-      'Learn how to programmatically configure webhooks for your app.',
+    href: '/custom-proxy',
+    name: 'Custom proxy',
+    description: 'Scrape using custom proxy.',
   },
 ]
 

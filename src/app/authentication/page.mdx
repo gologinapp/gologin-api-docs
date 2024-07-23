@@ -8,31 +8,46 @@ export const metadata = {
 
 You'll need to authenticate your requests to access any of the endpoints in the GoLogin API. In this guide, we'll look at how authentication works. GoLogin offers two ways to authenticate your API requests: Basic authentication and OAuth2 with a token — OAuth2 is the recommended way. {{ className: 'lead' }}
 
-## Basic authentication
-
-With basic authentication, you use your username and password to authenticate your HTTP requests. Unless you have a very good reason, you probably shouldn't use basic auth. Here's how to authenticate using cURL:
-
-```bash {{ title: 'Example request with basic auth' }}
-curl https://api.gologin.chat/v1/conversations \
-  -u username:password
-```
-
-Please don't commit your GoLogin password to GitHub!
-
 ## OAuth2 with bearer token
 
-The recommended way to authenticate with the GoLogin API is by using OAuth2. When establishing a connection using OAuth2, you will need your access token — you will find it in the [GoLogin dashboard](#) under API settings. Here's how to add the token to the request header using cURL:
+With raw http API authentication, you use your API token to authenticate your HTTP requests. Here's how to authenticate using fetch:
 
-```bash {{ title: 'Example request with bearer token' }}
-curl https://api.gologin.chat/v1/conversations \
-  -H "Authorization: Bearer {token}"
+```bash {{ title: 'Internal request authentication implementation' }}
+const response = await fetch(`${API_URL}${uri}`, {
+  method,
+  headers: {
+    Authorization: `Bearer ${token}`,
+    'user-agent': 'gologin-api',
+    'Content-Type': 'application/json; charset=utf-8',
+  },
+  body: JSON.stringify(json),
+});
+```
+
+Please don't commit your GoLogin password or token to git or GitHub!
+
+## Using an GologinApi instance
+
+The recommended way to authenticate with the GoLogin API is by using SDK. 
+When establishing a connection using OAuth2, you will need your access token — you will find it in the [GoLogin dashboard](https://app.gologin.com/personalArea/TokenApi) under API settings. Here's how to add the token to the request header using cURL:
+
+```js {{ title: 'JavaScript API request example' }}
+const gologin = GologinApi({ token });
+const proxies = await httpApi('/users-proxies/mobile-proxy', {
+  json: {
+    countryCode,
+    browserId: '',
+    isMobile: false,
+    isDC: false,
+  },
+});
 ```
 
 Always keep your token safe and reset it if you suspect it has been compromised.
 
 ## Using an SDK
 
-If you use one of our official SDKs, you won't have to worry about any of the above — fetch your access token from the [GoLogin dashboard](#) under API settings, and the client library will take care of the rest. All the client libraries use OAuth2 behind the scenes.
+If you use one of our official SDKs, you won't have to worry about any of the above — fetch your access token from the [GoLogin dashboard](https://app.gologin.com/personalArea/TokenApi) under API settings, and the client library will take care of the rest. All the client libraries use OAuth2 behind the scenes.
 
 <div className="not-prose">
   <Button href="/sdks" variant="text" arrow="right">
