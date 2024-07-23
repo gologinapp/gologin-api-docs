@@ -16,7 +16,7 @@ const withMDX = nextMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/gologin-api-docs',
+  // basePath: '/gologin-api-docs',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
 }
 
