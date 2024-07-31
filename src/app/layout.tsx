@@ -5,6 +5,7 @@ import { Providers } from '@/app/providers'
 import { Layout } from '@/components/Layout'
 import { type Section } from '@/components/SectionProvider'
 
+import { Intercom } from '@/components/Intercom'
 import '@/styles/tailwind.css'
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default async function RootLayout({
             <Layout allSections={allSections}>{children}</Layout>
           </div>
         </Providers>
+        <Intercom />
       </body>
     </html>
   )
