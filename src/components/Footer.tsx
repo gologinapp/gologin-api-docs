@@ -118,17 +118,17 @@ function SmallPrint() {
   return (
     <div className="flex flex-col items-center justify-between gap-5 border-t border-zinc-900/5 pt-8 sm:flex-row dark:border-white/5">
       <p className="text-xs text-zinc-600 dark:text-zinc-400">
-        &copy; Copyright {new Date().getFullYear()}. All rights reserved.
+        &copy; Copyright 2024. All rights reserved.
       </p>
       <div className="flex gap-4">
-        <SocialLink href="#" icon={XIcon}>
+        <SocialLink href="https://x.com/gologinapp" icon={XIcon}>
           Follow us on X
         </SocialLink>
-        <SocialLink href="#" icon={GitHubIcon}>
-          Follow us on GitHub
+        <SocialLink href="https://github.com/gologinapp/gologin" icon={GitHubIcon}>
+          Star us on GitHub
         </SocialLink>
-        <SocialLink href="#" icon={DiscordIcon}>
-          Join our Discord server
+        <SocialLink href="https://www.linkedin.com/company/gologin/" icon={DiscordIcon}>
+          Follow us on LinkedIn
         </SocialLink>
       </div>
     </div>
