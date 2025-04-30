@@ -239,9 +239,14 @@ export const navigation: Array<NavGroup> = [
       { title: 'Headless browser', href: '/headless' },
       { title: 'Provided proxies', href: '/provided-proxies' },
       { title: 'Custom proxies', href: '/custom-proxies' },
-
       { title: 'SDKs', href: '/sdks' },
       { title: 'Authentication', href: '/authentication' },
+    ],
+  },
+  {
+    title: 'Reference',
+    links: [
+      { title: 'API Reference', href: '/api-reference' },
     ],
   },
   // {
