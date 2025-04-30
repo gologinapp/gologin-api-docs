@@ -15,9 +15,18 @@ const withMDX = nextMDX({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove or comment out the 'export' option for Redoc to work properly
+  // output: 'export',
   // basePath: '/gologin-api-docs',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+  // Add webpack configuration to support JSON imports for OpenAPI specs
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.json$/,
+      type: 'json',
+    });
+    return config;
+  },
 }
 
 export default withSearch(withMDX(nextConfig))

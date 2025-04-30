@@ -1,0 +1,6311 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/browser/v2": {
+      "get": {
+        "description": "returns a full list of all user's profiles in all workspaces with pagination",
+        "operationId": "BrowserController_getBrowserListNew",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles which names match the search query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folder",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles in particular folder",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of profiles per page is 30. So if you want to get more profiles, you need to increment this value",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sorterField",
+            "required": false,
+            "in": "query",
+            "description": "Will sort the result by the selected field",
+            "schema": {
+              "default": "createdAt",
+              "enum": [
+                "lastActivity",
+                "proxyType",
+                "updatedAt",
+                "createdAt",
+                "sharedEmails",
+                "name",
+                "os",
+                "order"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "sorterOrder",
+            "required": false,
+            "in": "query",
+            "description": "Will sort the result by the selected order",
+            "schema": {
+              "default": "descend",
+              "enum": [
+                "ascend",
+                "descend"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles with the selected tag",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBrowserListNewDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "get all profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/fingerprint": {
+      "get": {
+        "description": "Returns a random fingerprint to create a new profile",
+        "operationId": "BrowserController_getRandomFingerprint",
+        "parameters": [
+          {
+            "name": "os",
+            "required": true,
+            "in": "query",
+            "description": "The operating system to use for the fingerprint",
+            "schema": {
+              "example": "win",
+              "enum": [
+                "lin",
+                "mac",
+                "win",
+                "android",
+                "macM1"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "osSpec",
+            "required": false,
+            "in": "query",
+            "description": "The specific version of the operating system to use for the fingerprint",
+            "schema": {
+              "example": "win11",
+              "enum": [
+                "M1",
+                "M2",
+                "M3",
+                "M4",
+                "win11",
+                ""
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "template",
+            "required": false,
+            "in": "query",
+            "description": "The template to use for the fingerprint",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currentWorkspace",
+            "required": true,
+            "in": "query",
+            "description": "The current workspace to use for the fingerprint",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OFingerprintInst"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a random fingerprint",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/proxy/many/v2": {
+      "patch": {
+        "description": "Updates the proxy for multiple profiles",
+        "operationId": "BrowserController_updateProfileProxyMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchProxyManyV2Validation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update proxy for multiple profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/chrome_extensions/many": {
+      "patch": {
+        "description": "Updates the chrome extensions for multiple profiles",
+        "operationId": "BrowserController_updateChromeExtensions",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchChromeExtensionsManyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update chrome extensions for multiple profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/bookmarks/many": {
+      "patch": {
+        "description": "Updates the bookmarks for multiple profiles",
+        "operationId": "BrowserController_updateProfileBookmarksMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchBookmarksManyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update bookmarks for multiple profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}": {
+      "get": {
+        "description": "Returns full profile info by id",
+        "operationId": "BrowserController_getBrowserById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "description": "If you want to get the profile from a specific workspace",
+            "schema": {
+              "example": "60a763f86501b3abcdc54b21",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBrowser"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get profile by id",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "delete": {
+        "description": "Deletes a profile by id",
+        "operationId": "BrowserController_deleteBrowser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete profile",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "put": {
+        "description": "Updates a profile by id, you need to pass all fields in the body",
+        "operationId": "BrowserController_updateBrowser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "description": "If you want to get the profile from a specific workspace",
+            "schema": {
+              "example": "60a763f86501b3abcdc54b21",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ICreateBrowserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBrowserListDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/history": {
+      "get": {
+        "description": "Gologin keeps different historical versions of profile data and this method allows you to get current version history",
+        "operationId": "BrowserController_getProfileHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/S3ObjectItemDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get profile history",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "patch": {
+        "description": "Updates the profile history to the particular version",
+        "operationId": "BrowserController_updateProfileHistory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "id of the version to make the last one which you can get from GET /browser/:id/history",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicateHistoryObjectValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/S3ObjectItemDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile history",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/update_ua_to_new_browser_v": {
+      "patch": {
+        "description": "Updates the user agent of profile to the new browser version",
+        "operationId": "BrowserController_updateUaToNewBrowserV",
+        "parameters": [
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchUaToNewBrowserVValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update user agent of profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/lastArchive": {
+      "get": {
+        "description": "Gologin stores profiles browser data on the cloud and this method allows you to get the url of the last archive of the profile",
+        "operationId": "BrowserController_getBrowserLastArchive",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBrowserLastArchive"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get profile archive url",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/cookies": {
+      "get": {
+        "description": "Gets cookies of the profile from database",
+        "operationId": "BrowserController_getBrowserCookies",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetCookiesDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Find cookies of profile",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "post": {
+        "description": "Browser will import it next time you run it",
+        "operationId": "BrowserController_postBrowserCookies",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromUser",
+            "required": false,
+            "in": "query",
+            "description": "should be true if you want browser to import it when you run it next time",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "cleanCookies",
+            "required": false,
+            "in": "query",
+            "description": "should be true if you want browser to erase all cookies before importing new ones",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PostCookiesDTO"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update cookies for profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser": {
+      "post": {
+        "description": "Create a new profile with all the data",
+        "operationId": "BrowserController_addBrowser",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "You need to pass all the data in order to create a new profile, to create a profile with partial parameters /browser/custom",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ICreateBrowserDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create profile",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "delete": {
+        "description": "Deletes multiple profiles by ids",
+        "operationId": "BrowserController_deleteMultipleBrowsers",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "You need to pass an array of profile ids",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IDeleleMultipleBrowsersDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete multiple profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/import/dolphin": {
+      "post": {
+        "description": "Imports dolphin profiles to the gologin account",
+        "operationId": "BrowserController_importDolphinProfiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DolphinApiKeyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Import dolphin profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/quick": {
+      "post": {
+        "description": "It uses templates for profile parameters",
+        "operationId": "BrowserController_quickAddBrowser",
+        "parameters": [
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuickProfileValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create profile with templates",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/custom": {
+      "post": {
+        "operationId": "BrowserController_addCustomBrowser",
+        "parameters": [
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomBrowserValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OBrowserListDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Creates a new profile - here you can specify particular parameters for the profile. Other parameters will be taken from random fingerprint",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/fingerprints": {
+      "patch": {
+        "operationId": "BrowserController_updateFingerprints",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IBrowserFingerprintPartialValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/OBrowserListDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Refreshes fingerprints for the profiles. It will change profile fingerprint with new random one or from template",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/restore": {
+      "get": {
+        "description": "Deletes latest historical version of the profile and restores previous one",
+        "operationId": "BrowserController_restorePreviousProfileVersion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Restore previous profile version",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/notes": {
+      "patch": {
+        "description": "Updates the notes of the profile",
+        "operationId": "BrowserController_patchBrowserNotes",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IPatchBrowserNoteDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile notes",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/name/many": {
+      "patch": {
+        "description": "Updates the names of multiple profiles",
+        "operationId": "BrowserController_patchBrowserNameMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatchNameManyValidation"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update multiple profiles names",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/name": {
+      "patch": {
+        "description": "Updates the name of the profile",
+        "operationId": "BrowserController_patchBrowserName",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchNameValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile name",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/geolocation": {
+      "patch": {
+        "description": "Updates the geolocation parameter of the profile",
+        "operationId": "BrowserController_patchBrowserGeolocation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeolocationModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile geolocation",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/proxy": {
+      "patch": {
+        "description": "Updates the proxy of the profile",
+        "operationId": "BrowserController_patchBrowserProxy",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrowserProxyCreateValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile proxy",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/language": {
+      "patch": {
+        "description": "Updates the language parameter of the profile",
+        "operationId": "BrowserController_patchBrowserLangs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLangsValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile language",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/timezone": {
+      "patch": {
+        "description": "Updates the timezone parameter of the profile",
+        "operationId": "BrowserController_patchBrowserTimezone",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimezoneModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile timezone",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/resolution": {
+      "patch": {
+        "operationId": "BrowserController_patchBrowserResolution",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchResolutionValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Updates resolution parameter of the profile. Accepts string like \"1920x1080\" or \"1024x768\"",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/ua": {
+      "patch": {
+        "description": "Updates the user agent parameter of the profile. It is not recommended to change this parameter with your own value. If you want to update user agent - better to use /browser/update_ua_to_new_browser_v",
+        "operationId": "BrowserController_patchBrowserUserAgent",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchUserAgentValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update profile user agent",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/clone": {
+      "post": {
+        "description": "Creates a new profile with the same parameters as the original profile. Keep in mind that it only clones parameters and cookies. Browser data like history, session etc. will not be cloned.",
+        "operationId": "BrowserController_cloneProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Clone profile",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/clone_multi": {
+      "post": {
+        "description": "Clones multiple profiles at once",
+        "operationId": "BrowserController_cloneMultipleProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneMultiValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Clone multiple profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/{id}/web": {
+      "post": {
+        "description": "Runs the profile in the cloud and returns url to connect",
+        "operationId": "BrowserController_runBrowserWeb",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IPostWebBrowser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Run profile in the cloud",
+        "tags": [
+          "Profile"
+        ]
+      },
+      "delete": {
+        "description": "Stops running profile in the cloud",
+        "operationId": "BrowserController_removeWebBrowser",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Stop profile in the cloud",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/browsers.csv": {
+      "post": {
+        "description": "Exports profiles to CSV file",
+        "operationId": "BrowserController_getBrowsersCSV",
+        "parameters": [
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportProfileValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Export profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/browser/browser-import": {
+      "post": {
+        "description": "Imports profiles from CSV file",
+        "operationId": "BrowserController_browserImport",
+        "parameters": [
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folderName",
+            "required": false,
+            "in": "query",
+            "description": "Folder name to import profiles to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "CSV file content as a string",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImportProfilesBodyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Import profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/workspaces/{wid}/members": {
+      "post": {
+        "operationId": "WorkspacesMembersController_inviteMember",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkspaceMemberValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "This endpoint allows you to invite a member to a workspace by email. Recipient will receive an email with a link to join the workspace.",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}/members/{id}": {
+      "patch": {
+        "description": "Updates a member's permissions in a workspace",
+        "operationId": "WorkspacesMembersController_patchMember",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchWorkspaceMemberValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update member permissions",
+        "tags": [
+          "Workspace"
+        ]
+      },
+      "delete": {
+        "description": "Removes a member from a workspace",
+        "operationId": "WorkspacesMembersController_kickMember",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Member ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove member from workspace",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/share": {
+      "post": {
+        "description": "You can share a profile or a folder of profiles",
+        "operationId": "ShareController_share",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ICreateShareBrowser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create share",
+        "tags": [
+          "Share"
+        ]
+      },
+      "delete": {
+        "description": "Removes share of a profile",
+        "operationId": "ShareController_removeShares",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete share",
+        "tags": [
+          "Share"
+        ]
+      }
+    },
+    "/share/multi": {
+      "post": {
+        "description": "Shares multiple profiles with a user",
+        "operationId": "ShareController_shareMultipleProfiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ICreateShareBrowser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple shares",
+        "tags": [
+          "Share"
+        ]
+      }
+    },
+    "/share/folder": {
+      "post": {
+        "description": "Shares multiple folders with a user",
+        "operationId": "ShareController_shareFolder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ICreateShareFolder"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create folder share",
+        "tags": [
+          "Share"
+        ]
+      }
+    },
+    "/share/folder/{id}": {
+      "delete": {
+        "description": "Removes share of a folder",
+        "operationId": "ShareController_removeFolderSharing",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete folder share",
+        "tags": [
+          "Share"
+        ]
+      }
+    },
+    "/templates": {
+      "post": {
+        "description": "Creates a new template",
+        "operationId": "TemplatesController_createTemplate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTemplateValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create template",
+        "tags": [
+          "Template"
+        ]
+      },
+      "get": {
+        "description": "Gets all templates",
+        "operationId": "TemplatesController_getTemplates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all templates",
+        "tags": [
+          "Template"
+        ]
+      }
+    },
+    "/templates/{id}": {
+      "put": {
+        "description": "Updates a template",
+        "operationId": "TemplatesController_updateBrowserTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the profile",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTemplateValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update template",
+        "tags": [
+          "Template"
+        ]
+      }
+    },
+    "/proxy/{id}": {
+      "get": {
+        "description": "Gets a proxy info by proxy id",
+        "operationId": "ProxyController_getProxyById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the proxy",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Find proxy by id",
+        "tags": [
+          "Proxy"
+        ]
+      },
+      "put": {
+        "description": "Updates a proxy",
+        "operationId": "ProxyController_editProxy",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the proxy",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProxyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProxyDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update proxy",
+        "tags": [
+          "Proxy"
+        ]
+      },
+      "delete": {
+        "description": "Deletes a proxy",
+        "operationId": "ProxyController_deleteProxy",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "id of the proxy",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete proxy",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v2": {
+      "get": {
+        "description": "Gets all proxies of the user with pagination",
+        "operationId": "ProxyController_getUserProxyWithPagination",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProxyWithPaginationDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get list of all proxies",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/shared": {
+      "get": {
+        "description": "Gologin allows to share proxies to other users. This endpoint gets all shared proxies of the user.",
+        "operationId": "ProxyController_getUserSharedProxies",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get list of shared proxies",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/add_proxies": {
+      "post": {
+        "description": "Adds multiple proxies",
+        "operationId": "ProxyController_addProxies",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProxiesValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProxyDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create multiple proxies",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/delete_proxies": {
+      "post": {
+        "description": "Deletes multiple proxies by proxy ids",
+        "operationId": "ProxyController_deleteProxies",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteProxiesValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete multiple proxies",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/users-proxies/mobile-proxy": {
+      "post": {
+        "description": "Gologin provides high quality proxies out of the box. This endpoint allows you to create a proxy.",
+        "operationId": "UsersProxiesController_getVpnUfoProxy",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VpnUfoProxyValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create gologin high quality proxy",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/users-proxies/geolocation/traffic": {
+      "get": {
+        "description": "Gets the traffic left for the user for Gologin high quality proxies",
+        "operationId": "UsersGeolocationProxiesController_getTrafficLeft",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Get used traffic data of gologin proxies",
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/workspaces": {
+      "get": {
+        "description": "Gets all workspaces for a user",
+        "operationId": "WorkspacesController_userWorkspaces",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShortWorkspaceDTO"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all workspaces",
+        "tags": [
+          "Workspace"
+        ]
+      },
+      "post": {
+        "description": "Creates a new workspace",
+        "operationId": "WorkspacesController_createWorkspace",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWorkspaceValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShortWorkspaceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create workspace",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}": {
+      "get": {
+        "description": "Gets all information about a workspace by ID",
+        "operationId": "WorkspacesController_getWorkspace",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FullWorkspaceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get workspace info",
+        "tags": [
+          "Workspace"
+        ]
+      },
+      "delete": {
+        "description": "Deletes a workspace",
+        "operationId": "WorkspacesController_deleteWorkspace",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete workspace",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}/rename": {
+      "patch": {
+        "description": "Renames a workspace",
+        "operationId": "WorkspacesController_renameWorkspace",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenameWorkspaceValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ShortWorkspaceDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Rename workspace",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}/profiles-count": {
+      "get": {
+        "description": "Gets the number of profiles in a workspace",
+        "operationId": "WorkspacesController_getProfilesCount",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get profiles count",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}/profiles": {
+      "get": {
+        "description": "Gets all profiles in a workspace",
+        "operationId": "WorkspacesController_getProfiles",
+        "parameters": [
+          {
+            "name": "cf-ipcountry",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles which names match the search query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folder",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles in particular folder",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "folderId",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles in particular folder",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of profiles per page is 30. So if you want to get more profiles, you need to increment this value",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Will sort the result by the selected field",
+            "schema": {
+              "default": "createdAt",
+              "enum": [
+                "lastActivity",
+                "proxyType",
+                "updatedAt",
+                "createdAt",
+                "sharedEmails",
+                "name",
+                "os",
+                "order"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Will sort the result by the selected order",
+            "schema": {
+              "default": "descend",
+              "enum": [
+                "ascend",
+                "descend"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "description": "Will return all profiles with the selected tag",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Maximum number of profiles per page is 30. So if you want to get more profiles, you need to increment this value",
+            "schema": {
+              "default": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileListDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all profiles in workspace",
+        "tags": [
+          "Workspace"
+        ]
+      },
+      "delete": {
+        "description": "Deletes multiple profiles from a workspace",
+        "operationId": "WorkspacesController_deleteProfiles",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyProfilesValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Delete multiple profiles in workspace",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/workspaces/{wid}/profiles/transfer": {
+      "post": {
+        "description": "Transfers a profile to another workspace",
+        "operationId": "WorkspacesController_transferProfile",
+        "parameters": [
+          {
+            "name": "wid",
+            "required": true,
+            "in": "path",
+            "description": "Workspace ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferProfileValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Transfer profile",
+        "tags": [
+          "Workspace"
+        ]
+      }
+    },
+    "/user": {
+      "get": {
+        "description": "Gets full user info",
+        "operationId": "UserController_getUserInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get user info",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/user/dev": {
+      "post": {
+        "description": "Generates a dev token",
+        "operationId": "UserController_generateDevToken",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDevTokenDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create dev token",
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/deleted-profiles/v2": {
+      "get": {
+        "description": "Get deleted profiles list with pagination",
+        "operationId": "DeletedProfilesController_getDeletedProfileListV2",
+        "parameters": [
+          {
+            "name": "currentWorkspace",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "required": true,
+            "in": "query",
+            "description": "Offset for pagination",
+            "schema": {
+              "example": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get list of deleted profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/deleted-profiles/restore": {
+      "post": {
+        "description": "Restore deleted profiles",
+        "operationId": "DeletedProfilesController_restoreProfiles",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestoreMultipleProfilesValidator"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Restore deleted profiles",
+        "tags": [
+          "Profile"
+        ]
+      }
+    },
+    "/folders": {
+      "get": {
+        "description": "Gets all folders for user",
+        "operationId": "OldFoldersController_getFolders",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all folders",
+        "tags": [
+          "Folder"
+        ]
+      }
+    },
+    "/folders/folder": {
+      "post": {
+        "description": "Creates a new folder",
+        "operationId": "OldFoldersController_createFolder",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFolderValidation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create folder",
+        "tags": [
+          "Folder"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "GoLogin",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Profile",
+      "description": "Profile is a main entity of the application. It stores all the information that needs to be saved in browser to change your fingerprint."
+    },
+    {
+      "name": "Proxy",
+      "description": "Proxy in Gologin is a separate entity that belongs to a profile but also can be managed separately for convinience."
+    },
+    {
+      "name": "Workspace",
+      "description": "Workspace is a group of profiles and users that can manage those profiles. This feature helps a lot with a team collaboration because you can granually control permissions for each user."
+    },
+    {
+      "name": "Share",
+      "description": "This feature allows you to give an access to your profiles to other users."
+    },
+    {
+      "name": "Template",
+      "description": "Templates are pre-configured profiles parameters that you can use to save time and effort creating new profiles. To create a profile with a template, please refer to /browser/quick endpoint"
+    }
+  ],
+  "servers": [
+    {
+      "url": "https://api.gologin.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "NavigatorModel": {
+        "type": "object",
+        "properties": {
+          "userAgent": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "doNotTrack": {
+            "type": "boolean",
+            "default": false
+          },
+          "hardwareConcurrency": {
+            "type": "number"
+          },
+          "deviceMemory": {
+            "type": "number"
+          },
+          "maxTouchPoints": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "userAgent",
+          "resolution",
+          "language",
+          "platform"
+        ]
+      },
+      "ProfilePermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "transferProfile": {
+            "type": "boolean"
+          },
+          "transferToMyWorkspace": {
+            "type": "boolean"
+          },
+          "shareProfile": {
+            "type": "boolean"
+          },
+          "manageFolders": {
+            "type": "boolean"
+          },
+          "editProfile": {
+            "type": "boolean"
+          },
+          "deleteProfile": {
+            "type": "boolean"
+          },
+          "cloneProfile": {
+            "type": "boolean"
+          },
+          "exportProfile": {
+            "type": "boolean"
+          },
+          "updateUA": {
+            "type": "boolean"
+          },
+          "addVpnUfoProxy": {
+            "type": "boolean"
+          },
+          "runProfile": {
+            "type": "boolean"
+          },
+          "runProfileWeb": {
+            "type": "boolean"
+          },
+          "viewProfile": {
+            "type": "boolean"
+          },
+          "addProfileTag": {
+            "type": "boolean"
+          },
+          "removeProfileTag": {
+            "type": "boolean"
+          },
+          "viewShareLinks": {
+            "type": "boolean"
+          },
+          "createShareLinks": {
+            "type": "boolean"
+          },
+          "updateShareLinks": {
+            "type": "boolean"
+          },
+          "deleteShareLinks": {
+            "type": "boolean"
+          },
+          "viewCustomExtensions": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "transferProfile",
+          "transferToMyWorkspace",
+          "shareProfile",
+          "manageFolders",
+          "editProfile",
+          "deleteProfile",
+          "cloneProfile",
+          "exportProfile",
+          "updateUA",
+          "addVpnUfoProxy",
+          "runProfile",
+          "runProfileWeb",
+          "viewProfile",
+          "addProfileTag",
+          "removeProfileTag",
+          "viewShareLinks",
+          "createShareLinks",
+          "updateShareLinks",
+          "deleteShareLinks",
+          "viewCustomExtensions"
+        ]
+      },
+      "IDefaultProfilePropsDTO": {
+        "type": "object",
+        "properties": {
+          "profileNameIsDefault": {
+            "type": "boolean"
+          },
+          "profileNotesIsDefault": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profileNameIsDefault",
+          "profileNotesIsDefault"
+        ]
+      },
+      "WebGlMetadataModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "default": "mask",
+            "enum": [
+              "mask",
+              "off"
+            ]
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "renderer": {
+            "type": "string"
+          }
+        }
+      },
+      "FontsModel": {
+        "type": "object",
+        "properties": {
+          "families": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "enableMasking": {
+            "type": "boolean",
+            "default": true
+          },
+          "enableDomRect": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "families"
+        ]
+      },
+      "ParsedFacebookDataDTO": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "fbIdAccount": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "googleDriveUrl": {
+            "type": "string"
+          },
+          "fb2faToolUrl": {
+            "type": "string"
+          },
+          "fbUrl": {
+            "type": "string"
+          },
+          "uaVersion": {
+            "type": "string"
+          },
+          "cookies": {
+            "type": "string"
+          },
+          "notParsedData": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OBrowserListDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "browserType": {
+            "type": "string"
+          },
+          "lockEnabled": {
+            "type": "boolean"
+          },
+          "timezone": {
+            "type": "object"
+          },
+          "navigator": {
+            "$ref": "#/components/schemas/NavigatorModel"
+          },
+          "geolocation": {
+            "type": "object"
+          },
+          "debugMode": {
+            "type": "boolean"
+          },
+          "isM1": {
+            "type": "boolean"
+          },
+          "isPinned": {
+            "type": "boolean"
+          },
+          "updateUALastChosenBrowserV": {
+            "type": "string"
+          },
+          "canBeRunning": {
+            "type": "boolean"
+          },
+          "isRunDisabled": {
+            "type": "boolean"
+          },
+          "runDisabledReason": {
+            "type": "string",
+            "enum": [
+              "unpaid-share"
+            ]
+          },
+          "isRunning": {
+            "type": "boolean"
+          },
+          "isWeb": {
+            "type": "boolean"
+          },
+          "os": {
+            "type": "string"
+          },
+          "osSpec": {
+            "type": "string"
+          },
+          "proxy": {
+            "type": "object"
+          },
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "number"
+          },
+          "proxyType": {
+            "type": "string"
+          },
+          "proxyRegion": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sharedEmails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "shareId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date string"
+          },
+          "lastActivity": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Date string"
+          },
+          "chromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userChromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/ProfilePermissionsDTO"
+          },
+          "proxyEnabled": {
+            "type": "boolean"
+          },
+          "isAutoGenerated": {
+            "type": "boolean"
+          },
+          "isBookmarksSynced": {
+            "type": "boolean"
+          },
+          "defaultProps": {
+            "$ref": "#/components/schemas/IDefaultProfilePropsDTO"
+          },
+          "autoLang": {
+            "type": "boolean"
+          },
+          "remoteOrbitaUrl": {
+            "type": "string"
+          },
+          "webGLMetadata": {
+            "$ref": "#/components/schemas/WebGlMetadataModel"
+          },
+          "fonts": {
+            "$ref": "#/components/schemas/FontsModel"
+          },
+          "facebookAccountData": {
+            "$ref": "#/components/schemas/ParsedFacebookDataDTO"
+          },
+          "order": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "id",
+          "notes",
+          "browserType",
+          "lockEnabled",
+          "timezone",
+          "navigator",
+          "geolocation",
+          "debugMode",
+          "canBeRunning",
+          "isRunning",
+          "proxy",
+          "proxyType",
+          "proxyRegion",
+          "createdAt",
+          "updatedAt",
+          "lastActivity",
+          "userChromeExtensions",
+          "permissions",
+          "remoteOrbitaUrl",
+          "webGLMetadata"
+        ]
+      },
+      "OBrowserListNewDTO": {
+        "type": "object",
+        "properties": {
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OBrowserListDTO"
+            }
+          },
+          "allProfilesCount": {
+            "type": "number",
+            "description": "Total number of profiles in all workspaces"
+          },
+          "currentOrbitaMajorV": {
+            "type": "string"
+          },
+          "currentBrowserV": {
+            "type": "string"
+          },
+          "currentTestBrowserV": {
+            "type": "string"
+          },
+          "currentTestOrbitaMajorV": {
+            "type": "string"
+          },
+          "isFolderDeleted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "profiles",
+          "allProfilesCount"
+        ]
+      },
+      "FPNavigatorModel": {
+        "type": "object",
+        "properties": {
+          "userAgent": {
+            "type": "string"
+          },
+          "resolution": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "hardwareConcurrency": {
+            "type": "number"
+          },
+          "deviceMemory": {
+            "type": "number"
+          },
+          "maxTouchPoints": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "userAgent",
+          "resolution",
+          "language",
+          "platform",
+          "hardwareConcurrency",
+          "deviceMemory",
+          "maxTouchPoints"
+        ]
+      },
+      "FPPluginsModel": {
+        "type": "object",
+        "properties": {
+          "enableVulnerable": {
+            "type": "boolean"
+          },
+          "enableFlash": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enableVulnerable",
+          "enableFlash"
+        ]
+      },
+      "FPCanvasModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "real",
+              "block",
+              "noise",
+              "natural"
+            ]
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "FPMediaDevicesModel": {
+        "type": "object",
+        "properties": {
+          "videoInputs": {
+            "type": "number"
+          },
+          "audioInputs": {
+            "type": "number"
+          },
+          "audioOutputs": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "videoInputs",
+          "audioInputs",
+          "audioOutputs"
+        ]
+      },
+      "FPWebGlMetadataModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "mask",
+              "noise"
+            ]
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "renderer": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode",
+          "vendor",
+          "renderer"
+        ]
+      },
+      "OFingerprintInst": {
+        "type": "object",
+        "properties": {
+          "navigator": {
+            "$ref": "#/components/schemas/FPNavigatorModel"
+          },
+          "plugins": {
+            "$ref": "#/components/schemas/FPPluginsModel"
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/FPCanvasModel"
+          },
+          "mediaDevices": {
+            "$ref": "#/components/schemas/FPMediaDevicesModel"
+          },
+          "webGLMetadata": {
+            "$ref": "#/components/schemas/FPWebGlMetadataModel"
+          },
+          "os": {
+            "type": "string"
+          },
+          "osSpec": {
+            "type": "string"
+          },
+          "devicePixelRatio": {
+            "type": "number"
+          },
+          "fonts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "extensionsToNewProfiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userExtensionsToNewProfiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "autoLang": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "navigator",
+          "plugins",
+          "canvas",
+          "mediaDevices",
+          "webGLMetadata",
+          "os",
+          "osSpec",
+          "devicePixelRatio",
+          "fonts",
+          "extensionsToNewProfiles",
+          "userExtensionsToNewProfiles",
+          "autoLang"
+        ]
+      },
+      "ProxyModel": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "http",
+              "socks4",
+              "socks5",
+              "possh",
+              "geolocation",
+              "none",
+              "gologin",
+              "tor"
+            ]
+          },
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "number"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "changeIpUrl": {
+            "type": "string"
+          },
+          "customName": {
+            "type": "string"
+          },
+          "autoProxyRegion": {
+            "type": "string"
+          },
+          "torProxyRegion": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "ProfileProxy": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/ProxyModel"
+          }
+        },
+        "required": [
+          "profileId",
+          "proxy"
+        ]
+      },
+      "PatchProxyManyV2Validation": {
+        "type": "object",
+        "properties": {
+          "proxies": {
+            "description": "List of profiles with their proxies",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileProxy"
+            }
+          }
+        },
+        "required": [
+          "proxies"
+        ]
+      },
+      "PatchChromeExtensionsManyValidation": {
+        "type": "object",
+        "properties": {
+          "profileIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "chromeExtensionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "customExtensionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "extensionsToRemove": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "profileIds",
+          "chromeExtensionIds",
+          "customExtensionIds",
+          "extensionsToRemove"
+        ]
+      },
+      "SiteBookmark": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Bookmark name"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of bookmark item, usually \"url\""
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "url"
+        ]
+      },
+      "BookmarkFolder": {
+        "type": "object",
+        "properties": {
+          "children": {
+            "$ref": "#/components/schemas/SiteBookmark"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "children",
+          "name",
+          "type"
+        ]
+      },
+      "BookmarkFolders": {
+        "type": "object",
+        "properties": {
+          "BookmarkName": {
+            "$ref": "#/components/schemas/BookmarkFolder"
+          }
+        },
+        "required": [
+          "BookmarkName"
+        ]
+      },
+      "PatchBookmarksManyValidation": {
+        "type": "object",
+        "properties": {
+          "profileIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bookmarks": {
+            "$ref": "#/components/schemas/BookmarkFolders"
+          }
+        },
+        "required": [
+          "profileIds",
+          "bookmarks"
+        ]
+      },
+      "StorageModel": {
+        "type": "object",
+        "properties": {
+          "local": {
+            "type": "boolean",
+            "default": true
+          },
+          "extensions": {
+            "type": "boolean",
+            "default": true
+          },
+          "bookmarks": {
+            "type": "boolean",
+            "default": true
+          },
+          "history": {
+            "type": "boolean",
+            "default": true
+          },
+          "passwords": {
+            "type": "boolean",
+            "default": true
+          },
+          "session": {
+            "type": "boolean",
+            "default": true
+          },
+          "indexedDb": {
+            "type": "boolean",
+            "default": false
+          },
+          "enableExternalExtensions": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "BrowserArchivedProxyDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PluginsModel": {
+        "type": "object",
+        "properties": {
+          "enableVulnerable": {
+            "type": "boolean",
+            "default": true
+          },
+          "enableFlash": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "TimezoneModel": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "fillBasedOnIp": {
+            "type": "boolean",
+            "default": true
+          },
+          "timezone": {
+            "type": "string"
+          }
+        }
+      },
+      "GeolocationModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "prompt",
+              "block",
+              "allow"
+            ]
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "customize": {
+            "type": "boolean",
+            "default": true
+          },
+          "fillBasedOnIp": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "AudioContextModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "noise",
+              "off"
+            ],
+            "default": "off"
+          },
+          "noise": {
+            "type": "number"
+          }
+        }
+      },
+      "CanvasModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "block",
+              "noise",
+              "off"
+            ],
+            "default": "off"
+          },
+          "noise": {
+            "type": "number"
+          }
+        }
+      },
+      "MediaDevicesModel": {
+        "type": "object",
+        "properties": {
+          "videoInputs": {
+            "type": "number"
+          },
+          "audioInputs": {
+            "type": "number"
+          },
+          "audioOutputs": {
+            "type": "number"
+          },
+          "enableMasking": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "videoInputs",
+          "audioInputs",
+          "audioOutputs"
+        ]
+      },
+      "WebRTCModel": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "default": true
+          },
+          "isEmptyIceList": {
+            "type": "boolean",
+            "default": true
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "alerted",
+              "disabled",
+              "real",
+              "public",
+              "fake"
+            ]
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "customize": {
+            "type": "boolean",
+            "default": true
+          },
+          "localIpMasking": {
+            "type": "boolean",
+            "default": false
+          },
+          "fillBasedOnIp": {
+            "type": "boolean",
+            "default": true
+          },
+          "publicIp": {
+            "type": "string"
+          },
+          "localIps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "WebGlModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "off",
+              "noise"
+            ],
+            "default": "noise"
+          },
+          "getClientRectsNoise": {
+            "type": "number"
+          },
+          "noise": {
+            "type": "number"
+          }
+        }
+      },
+      "ClientRectsModel": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "off",
+              "noise"
+            ],
+            "default": "noise"
+          },
+          "noise": {
+            "type": "number"
+          }
+        }
+      },
+      "ExtensionsModel": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "default": true
+          },
+          "preloadCustom": {
+            "type": "boolean",
+            "default": true
+          },
+          "names": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "OBrowser": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "facebookAccountData": {
+            "$ref": "#/components/schemas/ParsedFacebookDataDTO"
+          },
+          "browserType": {
+            "type": "string",
+            "enum": [
+              "fierfox",
+              "chrome"
+            ]
+          },
+          "canBeRunning": {
+            "type": "boolean"
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "M1",
+              "M2",
+              "M3",
+              "M4",
+              "win11",
+              ""
+            ]
+          },
+          "isM1": {
+            "type": "boolean"
+          },
+          "startUrl": {
+            "type": "string"
+          },
+          "autoLang": {
+            "type": "boolean"
+          },
+          "bookmarks": {
+            "type": "object"
+          },
+          "googleServicesEnabled": {
+            "type": "boolean"
+          },
+          "isBookmarksSynced": {
+            "type": "boolean"
+          },
+          "launchArguments": {
+            "type": "string"
+          },
+          "lockEnabled": {
+            "type": "boolean"
+          },
+          "debugMode": {
+            "type": "boolean"
+          },
+          "navigator": {
+            "$ref": "#/components/schemas/NavigatorModel"
+          },
+          "storage": {
+            "$ref": "#/components/schemas/StorageModel"
+          },
+          "proxyEnabled": {
+            "type": "boolean"
+          },
+          "autoProxyServer": {
+            "type": "string"
+          },
+          "autoProxyUsername": {
+            "type": "string"
+          },
+          "autoProxyPassword": {
+            "type": "string"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/ProxyModel"
+          },
+          "archivedProxy": {
+            "$ref": "#/components/schemas/BrowserArchivedProxyDTO"
+          },
+          "dns": {
+            "type": "string"
+          },
+          "plugins": {
+            "$ref": "#/components/schemas/PluginsModel"
+          },
+          "timezone": {
+            "$ref": "#/components/schemas/TimezoneModel"
+          },
+          "geolocation": {
+            "$ref": "#/components/schemas/GeolocationModel"
+          },
+          "audioContext": {
+            "$ref": "#/components/schemas/AudioContextModel"
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/CanvasModel"
+          },
+          "fonts": {
+            "$ref": "#/components/schemas/FontsModel"
+          },
+          "mediaDevices": {
+            "$ref": "#/components/schemas/MediaDevicesModel"
+          },
+          "webRTC": {
+            "$ref": "#/components/schemas/WebRTCModel"
+          },
+          "webGL": {
+            "$ref": "#/components/schemas/WebGlModel"
+          },
+          "webGpu": {
+            "type": "object"
+          },
+          "clientRects": {
+            "$ref": "#/components/schemas/ClientRectsModel"
+          },
+          "webGLMetadata": {
+            "$ref": "#/components/schemas/WebGlMetadataModel"
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/ExtensionsModel"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "s3Path": {
+            "type": "string"
+          },
+          "s3Date": {
+            "type": "string"
+          },
+          "s3SignedUrl": {
+            "type": "string"
+          },
+          "createdInOs": {
+            "type": "string"
+          },
+          "devicePixelRatio": {
+            "type": "number"
+          },
+          "checkCookies": {
+            "type": "boolean"
+          },
+          "chromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userChromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isAutoGenerated": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "id",
+          "notes",
+          "browserType",
+          "os",
+          "osSpec",
+          "startUrl",
+          "autoLang",
+          "bookmarks",
+          "googleServicesEnabled",
+          "isBookmarksSynced",
+          "launchArguments",
+          "lockEnabled",
+          "debugMode",
+          "navigator",
+          "proxyEnabled",
+          "autoProxyServer",
+          "autoProxyUsername",
+          "autoProxyPassword",
+          "dns"
+        ]
+      },
+      "S3ObjectItemDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "size": {
+            "type": "number"
+          },
+          "lastModified": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "size",
+          "lastModified"
+        ]
+      },
+      "PatchUaToNewBrowserVValidation": {
+        "type": "object",
+        "properties": {}
+      },
+      "DuplicateHistoryObjectValidation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "OBrowserLastArchive": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "s3Path": {
+            "type": "string"
+          },
+          "s3SignedUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "GetCookiesDTO": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "hostOnly": {
+            "type": "boolean"
+          },
+          "path": {
+            "type": "string"
+          },
+          "secure": {
+            "type": "boolean"
+          },
+          "sameSite": {
+            "type": "string"
+          },
+          "httpOnly": {
+            "type": "boolean"
+          },
+          "session": {
+            "type": "boolean"
+          },
+          "expirationDate": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "url",
+          "domain",
+          "name",
+          "value",
+          "hostOnly",
+          "path",
+          "secure",
+          "sameSite",
+          "httpOnly",
+          "session",
+          "expirationDate"
+        ]
+      },
+      "PostCookiesDTO": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "object"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string",
+            "default": false
+          },
+          "session": {
+            "type": "boolean",
+            "default": false
+          },
+          "hostOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "secure": {
+            "type": "boolean",
+            "default": false
+          },
+          "httpOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "sameSite": {
+            "type": "string",
+            "enum": [
+              "no_restriction",
+              "lax",
+              "strict",
+              "unspecified"
+            ]
+          },
+          "expirationDate": {
+            "type": "number"
+          },
+          "creationDate": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "url",
+          "name"
+        ]
+      },
+      "BrowserProxyCreateValidation": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "deprecated": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "http",
+              "socks4",
+              "socks5",
+              "possh",
+              "geolocation",
+              "none",
+              "gologin",
+              "tor"
+            ]
+          },
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "number"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "changeIpUrl": {
+            "type": "string"
+          },
+          "customName": {
+            "type": "string"
+          },
+          "autoProxyRegion": {
+            "type": "string"
+          },
+          "torProxyRegion": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "WebGlParamsModel": {
+        "type": "object",
+        "properties": {}
+      },
+      "ICreateBrowserDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string",
+            "default": ""
+          },
+          "facebookAccountData": {
+            "$ref": "#/components/schemas/ParsedFacebookDataDTO"
+          },
+          "autoLang": {
+            "type": "boolean"
+          },
+          "bookmarks": {
+            "type": "object"
+          },
+          "isBookmarksSynced": {
+            "type": "boolean"
+          },
+          "launchArguments": {
+            "type": "string"
+          },
+          "browserType": {
+            "type": "string",
+            "enum": [
+              "chrome"
+            ]
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "isM1": {
+            "type": "boolean"
+          },
+          "devicePixelRatio": {
+            "type": "number"
+          },
+          "startUrl": {
+            "type": "string"
+          },
+          "googleServicesEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "lockEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "debugMode": {
+            "type": "boolean",
+            "default": false
+          },
+          "navigator": {
+            "$ref": "#/components/schemas/NavigatorModel"
+          },
+          "geoProxyInfo": {
+            "type": "object"
+          },
+          "storage": {
+            "$ref": "#/components/schemas/StorageModel"
+          },
+          "proxyEnabled": {
+            "type": "boolean",
+            "default": false
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/BrowserProxyCreateValidation"
+          },
+          "dns": {
+            "type": "string",
+            "default": ""
+          },
+          "plugins": {
+            "$ref": "#/components/schemas/PluginsModel"
+          },
+          "timezone": {
+            "$ref": "#/components/schemas/TimezoneModel"
+          },
+          "geolocation": {
+            "$ref": "#/components/schemas/GeolocationModel"
+          },
+          "audioContext": {
+            "$ref": "#/components/schemas/AudioContextModel"
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/CanvasModel"
+          },
+          "fonts": {
+            "$ref": "#/components/schemas/FontsModel"
+          },
+          "mediaDevices": {
+            "$ref": "#/components/schemas/MediaDevicesModel"
+          },
+          "webRTC": {
+            "$ref": "#/components/schemas/WebRTCModel"
+          },
+          "webGL": {
+            "$ref": "#/components/schemas/WebGlModel"
+          },
+          "clientRects": {
+            "$ref": "#/components/schemas/ClientRectsModel"
+          },
+          "webGLMetadata": {
+            "$ref": "#/components/schemas/WebGlMetadataModel"
+          },
+          "webglParams": {
+            "$ref": "#/components/schemas/WebGlParamsModel"
+          },
+          "extensions": {
+            "$ref": "#/components/schemas/ExtensionsModel"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "googleClientId": {
+            "type": "string"
+          },
+          "chromeExtensions": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "chromeExtensionsToAllProfiles": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userChromeExtensions": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "folders": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "autoLang",
+          "bookmarks",
+          "isBookmarksSynced",
+          "browserType",
+          "os",
+          "isM1",
+          "devicePixelRatio",
+          "navigator"
+        ]
+      },
+      "DolphinApiKeyValidation": {
+        "type": "object",
+        "properties": {
+          "dolphinApiKey": {
+            "type": "string",
+            "description": "The dolphin api key"
+          }
+        },
+        "required": [
+          "dolphinApiKey"
+        ]
+      },
+      "CreateQuickProfileValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "M1",
+              "M2",
+              "M3",
+              "M4",
+              "win11",
+              ""
+            ]
+          }
+        },
+        "required": [
+          "os"
+        ]
+      },
+      "CreateCustomBrowserValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "object",
+            "default": ""
+          },
+          "autoLang": {
+            "type": "object"
+          },
+          "lockEnabled": {
+            "type": "object"
+          },
+          "folderName": {
+            "type": "object"
+          },
+          "bookmarks": {
+            "type": "object"
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "devicePixelRatio": {
+            "type": "number"
+          },
+          "navigator": {
+            "$ref": "#/components/schemas/NavigatorModel"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/BrowserProxyCreateValidation"
+          },
+          "dns": {
+            "type": "string",
+            "default": ""
+          },
+          "timezone": {
+            "$ref": "#/components/schemas/TimezoneModel"
+          },
+          "geolocation": {
+            "$ref": "#/components/schemas/GeolocationModel"
+          },
+          "audioContext": {
+            "$ref": "#/components/schemas/AudioContextModel"
+          },
+          "canvas": {
+            "$ref": "#/components/schemas/CanvasModel"
+          },
+          "fonts": {
+            "$ref": "#/components/schemas/FontsModel"
+          },
+          "mediaDevices": {
+            "$ref": "#/components/schemas/MediaDevicesModel"
+          },
+          "webRTC": {
+            "$ref": "#/components/schemas/WebRTCModel"
+          },
+          "webGL": {
+            "$ref": "#/components/schemas/WebGlModel"
+          },
+          "clientRects": {
+            "$ref": "#/components/schemas/ClientRectsModel"
+          },
+          "webGLMetadata": {
+            "$ref": "#/components/schemas/WebGlMetadataModel"
+          },
+          "chromeExtensions": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userChromeExtensions": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "folders": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "autoLang",
+          "lockEnabled",
+          "folderName",
+          "bookmarks",
+          "os",
+          "devicePixelRatio",
+          "navigator"
+        ]
+      },
+      "IDeleleMultipleBrowsersDTO": {
+        "type": "object",
+        "properties": {
+          "profilesToDelete": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "profilesToDelete"
+        ]
+      },
+      "IBrowserFingerprintPartialValidation": {
+        "type": "object",
+        "properties": {
+          "browsersIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "template": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "browsersIds"
+        ]
+      },
+      "IPatchBrowserNoteDTO": {
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "notes"
+        ]
+      },
+      "PatchNameManyValidation": {
+        "type": "object",
+        "properties": {
+          "profileId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "profileId",
+          "name"
+        ]
+      },
+      "PatchNameValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UpdateLangsValidation": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "autoLang": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": [
+          "language"
+        ]
+      },
+      "PatchResolutionValidation": {
+        "type": "object",
+        "properties": {
+          "resolution": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "resolution"
+        ]
+      },
+      "PatchUserAgentValidation": {
+        "type": "object",
+        "properties": {
+          "userAgent": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "userAgent"
+        ]
+      },
+      "CloneMultiValidation": {
+        "type": "object",
+        "properties": {
+          "browsersIds": {
+            "description": "Array of browser IDs to clone",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "folderName": {
+            "type": "string",
+            "description": "Folder name to clone profiles to"
+          }
+        },
+        "required": [
+          "browsersIds"
+        ]
+      },
+      "IPostWebBrowser": {
+        "type": "object",
+        "properties": {
+          "workspaceId": {
+            "type": "string"
+          },
+          "isHeadless": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "ExportProfileValidation": {
+        "type": "object",
+        "properties": {
+          "browsersIds": {
+            "description": "Array of browser IDs to export",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "browsersIds"
+        ]
+      },
+      "ImportProfilesBodyValidation": {
+        "type": "object",
+        "properties": {
+          "dataProfiles": {
+            "type": "string",
+            "description": "CSV file content"
+          }
+        },
+        "required": [
+          "dataProfiles"
+        ]
+      },
+      "WorkspaceFolderRoleValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "role"
+        ]
+      },
+      "CreateWorkspaceMemberValidation": {
+        "type": "object",
+        "properties": {
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "limitedAccess": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "admin",
+              "editor",
+              "guest"
+            ]
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkspaceFolderRoleValidation"
+            }
+          },
+          "workspaceName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "emails",
+          "limitedAccess",
+          "role"
+        ]
+      },
+      "PatchWorkspaceMemberValidation": {
+        "type": "object",
+        "properties": {
+          "limitedAccess": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "admin",
+              "editor",
+              "guest"
+            ]
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkspaceFolderRoleValidation"
+            }
+          }
+        },
+        "required": [
+          "limitedAccess",
+          "role"
+        ]
+      },
+      "MemberFolderPermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "manageAccess": {
+            "type": "boolean"
+          },
+          "manageAdminAccess": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "manageAccess",
+          "manageAdminAccess"
+        ]
+      },
+      "MemberFolderDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/MemberFolderPermissionsDTO"
+          }
+        },
+        "required": [
+          "name",
+          "role",
+          "permissions"
+        ]
+      },
+      "ForMemberPermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "kickMember": {
+            "type": "boolean"
+          },
+          "manageWorkspaceWideAccess": {
+            "type": "boolean"
+          },
+          "manageWorkspaceWideAdminAccess": {
+            "type": "boolean"
+          },
+          "viewMember": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "kickMember",
+          "manageWorkspaceWideAccess",
+          "manageWorkspaceWideAdminAccess",
+          "viewMember"
+        ]
+      },
+      "MemberDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "limitedAccess": {
+            "type": "boolean"
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberFolderDTO"
+            }
+          },
+          "joined": {
+            "type": "boolean"
+          },
+          "invitedByEmail": {
+            "type": "string"
+          },
+          "lastActiveAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/ForMemberPermissionsDTO"
+          },
+          "workspaceVisited": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "limitedAccess",
+          "createdAt",
+          "permissions"
+        ]
+      },
+      "ICreateShareBrowser": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "browser",
+              "profile",
+              "folder"
+            ]
+          },
+          "instanceId": {
+            "type": "string"
+          },
+          "instanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "redactor",
+              "guest"
+            ]
+          },
+          "recepients": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recepient": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "ICreateShareFolder": {
+        "type": "object",
+        "properties": {
+          "folderIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "redactor",
+              "guest"
+            ]
+          },
+          "recepient": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "recepient"
+        ]
+      },
+      "DeleteManyValidation": {
+        "type": "object",
+        "properties": {
+          "invitesForDelete": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "invitesForDelete"
+        ]
+      },
+      "ProfileNameTemplateModel": {
+        "type": "object",
+        "properties": {
+          "dropFiles": {
+            "type": "string"
+          },
+          "rename": {
+            "type": "string"
+          },
+          "singleProfile": {
+            "type": "string"
+          },
+          "singleProfileQuick": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dropFiles"
+        ]
+      },
+      "BrowserParamModel": {
+        "type": "object",
+        "properties": {
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android",
+              "macM1",
+              "deviceOS"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "M1",
+              "M2",
+              "M3",
+              "M4",
+              "win11",
+              ""
+            ]
+          },
+          "minResolution": {
+            "type": "string",
+            "enum": [
+              "800x600",
+              "960x720",
+              "1024x576",
+              "1024x600",
+              "1024x640",
+              "1024x768",
+              "1152x648",
+              "1152x864",
+              "1280x720",
+              "1280x768",
+              "1280x800",
+              "1280x960",
+              "1280x1024",
+              "1360x768",
+              "1366x768",
+              "1400x1050",
+              "1440x900",
+              "1440x1080",
+              "1512x982",
+              "1536x864",
+              "1600x900",
+              "1600x1200",
+              "1680x1050",
+              "1710x1107",
+              "1856x1392",
+              "1920x1080",
+              "1920x1200",
+              "1920x1440",
+              "2048x1152",
+              "2048x1536",
+              "2304x1440",
+              "2560x1440",
+              "2560x1600",
+              "2560x1664",
+              "2560x2048",
+              "2880x1800",
+              "3840x2160",
+              "4096x2304",
+              "5120x2880",
+              "7680x4320"
+            ]
+          },
+          "maxResolution": {
+            "type": "string",
+            "enum": [
+              "800x600",
+              "960x720",
+              "1024x576",
+              "1024x600",
+              "1024x640",
+              "1024x768",
+              "1152x648",
+              "1152x864",
+              "1280x720",
+              "1280x768",
+              "1280x800",
+              "1280x960",
+              "1280x1024",
+              "1360x768",
+              "1366x768",
+              "1400x1050",
+              "1440x900",
+              "1440x1080",
+              "1512x982",
+              "1536x864",
+              "1600x900",
+              "1600x1200",
+              "1680x1050",
+              "1710x1107",
+              "1856x1392",
+              "1920x1080",
+              "1920x1200",
+              "1920x1440",
+              "2048x1152",
+              "2048x1536",
+              "2304x1440",
+              "2560x1440",
+              "2560x1600",
+              "2560x1664",
+              "2560x2048",
+              "2880x1800",
+              "3840x2160",
+              "4096x2304",
+              "5120x2880",
+              "7680x4320"
+            ]
+          },
+          "uaUserVersion": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string"
+          },
+          "storage": {
+            "$ref": "#/components/schemas/StorageModel"
+          },
+          "debugMode": {
+            "type": "boolean"
+          },
+          "dns": {
+            "type": "string"
+          },
+          "startUrl": {
+            "type": "string"
+          },
+          "bookmarks": {
+            "type": "object"
+          },
+          "launchArguments": {
+            "type": "string"
+          },
+          "autoLang": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "os",
+          "osSpec",
+          "minResolution",
+          "maxResolution",
+          "language",
+          "storage",
+          "dns",
+          "startUrl",
+          "bookmarks",
+          "launchArguments"
+        ]
+      },
+      "TemplateProxyValidation": {
+        "type": "object",
+        "properties": {
+          "quickProfileCreate": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "quickProfileCreate"
+        ]
+      },
+      "CreateTemplateValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "profileName": {
+            "$ref": "#/components/schemas/ProfileNameTemplateModel"
+          },
+          "browser": {
+            "$ref": "#/components/schemas/BrowserParamModel"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/TemplateProxyValidation"
+          }
+        },
+        "required": [
+          "profileName",
+          "browser"
+        ]
+      },
+      "UpdateTemplateValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "profileName": {
+            "$ref": "#/components/schemas/ProfileNameTemplateModel"
+          },
+          "browser": {
+            "$ref": "#/components/schemas/BrowserParamModel"
+          },
+          "proxy": {
+            "$ref": "#/components/schemas/TemplateProxyValidation"
+          }
+        },
+        "required": [
+          "name",
+          "profileName",
+          "browser"
+        ]
+      },
+      "ProxyDTO": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "deprecated": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "number"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "lastIp": {
+            "type": "string"
+          },
+          "changeIpUrl": {
+            "type": "string"
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "profilesCount": {
+            "type": "number"
+          },
+          "customName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "checkDate": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "languages": {
+            "type": "string"
+          },
+          "connectionType": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "isRestoredByOwner": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "_id",
+          "id",
+          "mode",
+          "host",
+          "port"
+        ]
+      },
+      "GetProxyWithPaginationDTO": {
+        "type": "object",
+        "properties": {
+          "proxies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProxyDTO"
+            }
+          },
+          "hasMore": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "proxies",
+          "hasMore"
+        ]
+      },
+      "CreateProxyValidation": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "http",
+              "socks4",
+              "socks5",
+              "possh",
+              "geolocation",
+              "none",
+              "gologin",
+              "tor"
+            ]
+          },
+          "host": {
+            "type": "string",
+            "description": "Proxy host"
+          },
+          "port": {
+            "type": "number",
+            "description": "Proxy port"
+          },
+          "username": {
+            "type": "string",
+            "description": "Proxy username"
+          },
+          "password": {
+            "type": "string",
+            "description": "Proxy password"
+          },
+          "changeIpUrl": {
+            "type": "string",
+            "description": "Proxy change ip url"
+          },
+          "customName": {
+            "type": "string",
+            "description": "Proxy custom name"
+          },
+          "checkDate": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Proxy check date"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Proxy status"
+          },
+          "country": {
+            "type": "string",
+            "description": "Proxy country"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Proxy notes"
+          }
+        },
+        "required": [
+          "mode",
+          "host",
+          "port"
+        ]
+      },
+      "CreateProxiesValidation": {
+        "type": "object",
+        "properties": {
+          "proxies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateProxyValidation"
+            }
+          },
+          "workspaceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "proxies"
+        ]
+      },
+      "DeleteProxiesValidation": {
+        "type": "object",
+        "properties": {
+          "proxies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "proxies"
+        ]
+      },
+      "VpnUfoProxyValidation": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "description": "Country code"
+          },
+          "city": {
+            "type": "string",
+            "description": "City"
+          },
+          "profileIdToLink": {
+            "type": "string",
+            "description": "Profile id to link"
+          },
+          "isMobile": {
+            "type": "boolean",
+            "description": "Is mobile"
+          },
+          "isDC": {
+            "type": "boolean",
+            "description": "Is DC"
+          },
+          "customName": {
+            "type": "string",
+            "description": "Custom name"
+          }
+        },
+        "required": [
+          "countryCode"
+        ]
+      },
+      "ShortWorkspacePermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "canAddBilling": {
+            "type": "boolean"
+          },
+          "canClaimProfilesWithoutFolder": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "canAddBilling",
+          "canClaimProfilesWithoutFolder"
+        ]
+      },
+      "ShortWorkspaceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "planId": {
+            "type": "string"
+          },
+          "planName": {
+            "type": "string"
+          },
+          "planMembersMax": {
+            "type": "number"
+          },
+          "isPlanUnlimited": {
+            "type": "boolean"
+          },
+          "planExpiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "paymentIsTrial": {
+            "type": "boolean"
+          },
+          "isUnpaid": {
+            "type": "boolean"
+          },
+          "memberCount": {
+            "type": "number"
+          },
+          "profilesCount": {
+            "type": "number"
+          },
+          "planProfilesMax": {
+            "type": "number"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/ShortWorkspacePermissionsDTO"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "owner",
+          "planId",
+          "planName",
+          "planMembersMax",
+          "isPlanUnlimited",
+          "planExpiresAt",
+          "paymentIsTrial",
+          "isUnpaid",
+          "memberCount",
+          "profilesCount",
+          "planProfilesMax",
+          "permissions"
+        ]
+      },
+      "FolderPermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "manageMember": {
+            "type": "boolean"
+          },
+          "manageAdminMember": {
+            "type": "boolean"
+          },
+          "share": {
+            "type": "boolean"
+          },
+          "canClaimProfiles": {
+            "type": "boolean"
+          },
+          "addProfile": {
+            "type": "boolean"
+          },
+          "importProfile": {
+            "type": "boolean"
+          },
+          "multipleCreateProfiles": {
+            "type": "boolean"
+          },
+          "dropProfiles": {
+            "type": "boolean"
+          },
+          "removeProfile": {
+            "type": "boolean"
+          },
+          "pinProfile": {
+            "type": "boolean"
+          },
+          "reorderProfiles": {
+            "type": "boolean"
+          },
+          "viewFolder": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "manageMember",
+          "manageAdminMember",
+          "share",
+          "canClaimProfiles",
+          "addProfile",
+          "importProfile",
+          "multipleCreateProfiles",
+          "dropProfiles",
+          "removeProfile",
+          "pinProfile",
+          "reorderProfiles",
+          "viewFolder"
+        ]
+      },
+      "WorkspaceFolderDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/FolderPermissionsDTO"
+          },
+          "order": {
+            "type": "number"
+          },
+          "associatedProfiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isAllProfiles": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "permissions"
+        ]
+      },
+      "GlobalPermissionsDTO": {
+        "type": "object",
+        "properties": {
+          "editWorkspace": {
+            "type": "boolean"
+          },
+          "downgradeWorkspacePlan": {
+            "type": "boolean"
+          },
+          "canClaimProfilesWithoutFolder": {
+            "type": "boolean"
+          },
+          "updateUAToAllProfiles": {
+            "type": "boolean"
+          },
+          "viewWorkspaceHistory": {
+            "type": "boolean"
+          },
+          "createFolder": {
+            "type": "boolean"
+          },
+          "renameFolder": {
+            "type": "boolean"
+          },
+          "deleteFolder": {
+            "type": "boolean"
+          },
+          "inviteMembers": {
+            "type": "boolean"
+          },
+          "globallyManageMembers": {
+            "type": "boolean"
+          },
+          "globallyManageAdminMembers": {
+            "type": "boolean"
+          },
+          "viewDeletedProfiles": {
+            "type": "boolean"
+          },
+          "restoreProfile": {
+            "type": "boolean"
+          },
+          "importProfile": {
+            "type": "boolean"
+          },
+          "multipleCreateProfiles": {
+            "type": "boolean"
+          },
+          "dropProfiles": {
+            "type": "boolean"
+          },
+          "viewAllMembers": {
+            "type": "boolean"
+          },
+          "pinProfileWithoutFolders": {
+            "type": "boolean"
+          },
+          "manageGeolocationProxies": {
+            "type": "boolean"
+          },
+          "manageUserProxies": {
+            "type": "boolean"
+          },
+          "addTags": {
+            "type": "boolean"
+          },
+          "removeTags": {
+            "type": "boolean"
+          },
+          "editTags": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "editWorkspace",
+          "downgradeWorkspacePlan",
+          "canClaimProfilesWithoutFolder",
+          "updateUAToAllProfiles",
+          "viewWorkspaceHistory",
+          "createFolder",
+          "renameFolder",
+          "deleteFolder",
+          "inviteMembers",
+          "globallyManageMembers",
+          "globallyManageAdminMembers",
+          "viewDeletedProfiles",
+          "restoreProfile",
+          "importProfile",
+          "multipleCreateProfiles",
+          "dropProfiles",
+          "viewAllMembers",
+          "pinProfileWithoutFolders",
+          "manageGeolocationProxies",
+          "manageUserProxies",
+          "addTags",
+          "removeTags",
+          "editTags"
+        ]
+      },
+      "LimitsDto": {
+        "type": "object",
+        "properties": {
+          "maxMembers": {
+            "type": "number"
+          },
+          "maxProfiles": {
+            "type": "number"
+          },
+          "maxProfileShares": {
+            "type": "number"
+          },
+          "maxCloudLaunches": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "maxMembers",
+          "maxProfiles",
+          "maxProfileShares",
+          "maxCloudLaunches"
+        ]
+      },
+      "FullWorkspaceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkspaceFolderDTO"
+            }
+          },
+          "allProfilesFolderId": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberDTO"
+            }
+          },
+          "planId": {
+            "type": "string"
+          },
+          "planName": {
+            "type": "string"
+          },
+          "planMembersMax": {
+            "type": "number"
+          },
+          "profilesCount": {
+            "type": "number"
+          },
+          "planProfilesMax": {
+            "type": "number"
+          },
+          "planSharesMax": {
+            "type": "number"
+          },
+          "planExpiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "paymentMethod": {
+            "type": "string"
+          },
+          "paymentDiscount": {
+            "type": "string"
+          },
+          "paymentIsTrial": {
+            "type": "boolean"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/GlobalPermissionsDTO"
+          },
+          "activeSharesCount": {
+            "type": "number"
+          },
+          "isUnpaid": {
+            "type": "boolean"
+          },
+          "isPlanUnlimited": {
+            "type": "boolean"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/LimitsDto"
+          }
+        },
+        "required": [
+          "id",
+          "owner",
+          "name",
+          "folders",
+          "members",
+          "planId",
+          "planName",
+          "planMembersMax",
+          "profilesCount",
+          "planProfilesMax",
+          "planSharesMax",
+          "planExpiresAt",
+          "paymentMethod",
+          "paymentDiscount",
+          "paymentIsTrial",
+          "permissions",
+          "activeSharesCount",
+          "isUnpaid",
+          "isPlanUnlimited",
+          "limits"
+        ]
+      },
+      "CreateWorkspaceValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isFreePlan": {
+            "type": "boolean",
+            "default": false
+          },
+          "os": {
+            "type": "string",
+            "enum": [
+              "lin",
+              "mac",
+              "win",
+              "android"
+            ]
+          },
+          "osSpec": {
+            "type": "string",
+            "enum": [
+              "M1",
+              "M2",
+              "M3",
+              "M4",
+              "win11",
+              ""
+            ]
+          }
+        }
+      },
+      "RenameWorkspaceValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "isFreePlan": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ProfileDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "browserType": {
+            "type": "string"
+          },
+          "lockEnabled": {
+            "type": "boolean"
+          },
+          "timezone": {
+            "type": "object"
+          },
+          "navigator": {
+            "type": "object"
+          },
+          "geolocation": {
+            "type": "object"
+          },
+          "debugMode": {
+            "type": "boolean"
+          },
+          "canBeRunning": {
+            "type": "boolean"
+          },
+          "isRunDisabled": {
+            "type": "boolean"
+          },
+          "runDisabledReason": {
+            "type": "string",
+            "enum": [
+              "unpaid-share"
+            ]
+          },
+          "isWeb": {
+            "type": "boolean"
+          },
+          "os": {
+            "type": "string"
+          },
+          "osSpec": {
+            "type": "string"
+          },
+          "isM1": {
+            "type": "boolean"
+          },
+          "proxy": {
+            "type": "object"
+          },
+          "archivedProxy": {
+            "$ref": "#/components/schemas/BrowserArchivedProxyDTO"
+          },
+          "proxyType": {
+            "type": "string"
+          },
+          "proxyRegion": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "folders": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "folderIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sharedEmails": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isPinned": {
+            "type": "boolean"
+          },
+          "updateUALastChosenBrowserV": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date string"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Date string"
+          },
+          "lastActivity": {
+            "type": "string",
+            "description": "Date string"
+          },
+          "permissions": {
+            "$ref": "#/components/schemas/ProfilePermissionsDTO"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "shareId": {
+            "type": "string"
+          },
+          "isShared": {
+            "type": "boolean"
+          },
+          "sharesCount": {
+            "type": "number"
+          },
+          "proxyEnabled": {
+            "type": "boolean"
+          },
+          "isDisabled": {
+            "type": "boolean"
+          },
+          "isAutoGenerated": {
+            "type": "boolean"
+          },
+          "isBookmarksSynced": {
+            "type": "boolean"
+          },
+          "defaultProps": {
+            "$ref": "#/components/schemas/IDefaultProfilePropsDTO"
+          },
+          "autoLang": {
+            "type": "boolean"
+          },
+          "remoteOrbitaUrl": {
+            "type": "string"
+          },
+          "bookmarks": {
+            "type": "object"
+          },
+          "chromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "userChromeExtensions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "facebookAccountData": {
+            "$ref": "#/components/schemas/ParsedFacebookDataDTO"
+          },
+          "order": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "id",
+          "role",
+          "notes",
+          "browserType",
+          "lockEnabled",
+          "timezone",
+          "navigator",
+          "geolocation",
+          "canBeRunning",
+          "os",
+          "proxy",
+          "archivedProxy",
+          "proxyType",
+          "proxyRegion",
+          "sharedEmails",
+          "createdAt",
+          "updatedAt",
+          "lastActivity",
+          "permissions"
+        ]
+      },
+      "ProfileListDTO": {
+        "type": "object",
+        "properties": {
+          "profiles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProfileDTO"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "isFolderDeleted": {
+            "type": "boolean"
+          },
+          "currentOrbitaMajorV": {
+            "type": "string"
+          },
+          "currentBrowserV": {
+            "type": "string"
+          },
+          "currentTestBrowserV": {
+            "type": "string"
+          },
+          "currentTestOrbitaMajorV": {
+            "type": "string"
+          },
+          "isMoreProfilesAvailable": {
+            "type": "boolean"
+          },
+          "groupsMetadata": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "profiles",
+          "total"
+        ]
+      },
+      "TransferProfileValidation": {
+        "type": "object",
+        "properties": {
+          "toEmail": {
+            "type": "string"
+          },
+          "instanceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "toEmail",
+          "instanceIds"
+        ]
+      },
+      "DeleteManyProfilesValidation": {
+        "type": "object",
+        "properties": {
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "profiles"
+        ]
+      },
+      "CreateDevTokenDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "RestoreMultipleProfilesValidator": {
+        "type": "object",
+        "properties": {
+          "profileIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "workspaceId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "profileIds",
+          "workspaceId"
+        ]
+      },
+      "CreateFolderValidation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the folder",
+            "example": "My Folder"
+          },
+          "associatedProfiles": {
+            "description": "Array of profile ids",
+            "example": [
+              "1",
+              "2",
+              "3"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "associatedProfiles"
+        ]
+      }
+    }
+  }
+}
