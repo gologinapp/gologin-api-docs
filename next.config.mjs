@@ -22,6 +22,9 @@ const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
   // Add webpack configuration to support JSON imports for OpenAPI specs
   webpack: (config) => {
+    // Disable webpack cache
+    config.cache = false;
+
     config.module.rules.push({
       test: /\.json$/,
       type: 'json',
